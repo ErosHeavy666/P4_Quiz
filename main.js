@@ -99,7 +99,7 @@ net.createServer(socket =>{
 	})
 	.on('close', () => {
 		log(socket, 'Adios!');
-		//sprocess.exit(0);
+		process.exit(0);
 	});
 
 

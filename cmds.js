@@ -108,11 +108,11 @@ const validateId = (socket, id) => {
 
   return new Sequelize.Promise((resolve, reject) => {
     if (typeof id === "undefined") {
-      reject(new Error(socket, `Falta el parametro <id>.`));
+      reject(new Error(`Falta el parametro <id>.`));
     } else {
             id = parseInt(id); //coger la parte entera y descartar lo demas
             if (Number.isNaN(id)) {
-              reject(new Error(socket, `El valor del parámetro <id> no es un número.`));
+              reject(new Error(`El valor del parámetro <id> no es un número.`));
             } else {
               resolve(id);
             }
@@ -131,7 +131,7 @@ const validateId = (socket, id) => {
   .then(id => models.quiz.findById(id))
   .then(quiz => {
     if (!quiz) {
-      throw new Error(socket, `No existe un quiz asociado al id=${id}.`);
+      throw new Error(`No existe un quiz asociado al id=${id}.`);
     }
     log(socket,` [${colorize(quiz.id, 'magenta')}]: ${quiz.question} ${colorize('=>','magenta')} ${quiz.answer}`);
 
@@ -156,7 +156,7 @@ const validateId = (socket, id) => {
   .then(id => models.quiz.findById(id))
   .then(quiz => {
     if (!quiz) {
-      throw new Error(socket, `No existe un quiz asociado al id=${id}.`);
+      throw new Error(`No existe un quiz asociado al id=${id}.`);
     }
     return makeQuestion(rl, `${quiz.question}`)
     .then(answer => {
