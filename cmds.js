@@ -320,8 +320,8 @@ const validateId = (socket, id) => {
  * Muestra los nombres de los autores de la práctica.
  */
  exports.creditsCmd = function(rl) {
-  log('Autores de la práctica');
-  log('Eros García Arroyo', 'green');
-  log('Luis García Olivares', 'green');
+  log(socket, 'Autores de la práctica');
+  log(socket, 'Eros García Arroyo', 'green');
+  log(socket, 'Luis García Olivares', 'green');
   rl.prompt();
 };
