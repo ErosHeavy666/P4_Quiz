@@ -127,21 +127,21 @@ const validateId = (socket, id) => {
  */
 
  exports.showCmd = (socket, rl, id) => {
-  validateId(id)
-  .then(id => models.quiz.findById(id))
-  .then(quiz => {
-    if (!quiz) {
-      throw new Error(`No existe un quiz asociado al id=${id}.`);
-    }
-    log(socket,` [${colorize(quiz.id, 'magenta')}]: ${quiz.question} ${colorize('=>','magenta')} ${quiz.answer}`);
-
-  })
-  .catch(error => {
-    errorlog(socket, error.message);
-  })
-  .then(() => {
-    rl.prompt();
-  })
+	
+	validateId(id)
+	.then(id => models.quiz.findById(id))
+	.then(quiz => {
+		if (!quiz) {
+			throw new Error(`No existe el quiz asociado al id=${id}.`);
+		}
+		log(socket, `${colorize(quiz.id,'magenta')}: ${quiz.question}  ${colorize('=>','magenta')} ${quiz.answer}`);
+	})
+	.catch(error => {
+		errorlog(socket, error.message);
+	})
+	.then(() => {
+		rl.prompt();
+	});
 };
 
 /**
@@ -152,31 +152,38 @@ const validateId = (socket, id) => {
  */
 
  exports.testCmd = (socket, rl, id) => {
-  validateId(id)
-  .then(id => models.quiz.findById(id))
-  .then(quiz => {
-    if (!quiz) {
-      throw new Error(`No existe un quiz asociado al id=${id}.`);
-    }
-    return makeQuestion(rl, `${quiz.question}`)
-    .then(answer => {
-      if (answer.toLowerCase() === quiz.answer.toLowerCase().trim()) {
-        log(socket,` ${colorize('Correcto', 'magenta')}`);
-        biglog(socket,'Correcto', 'green');
-      } else {
-        log(socket,` ${colorize('Incorrecto', 'magenta')}`);
-        biglog(socket,'Incorrecto', 'red');
-      }
-                    //rl.prompt();
-                  });
-  })
-  .catch(error => {
-    errorlog(socket, error.message);
+	
 
-  })
-  .then(() => {
-    rl.prompt();
-  });
+	//P3_QUIZ
+	validateId(id)
+	.then(id => models.quiz.findById(id))
+	.then(quiz => {
+		if (!quiz) {
+			throw new Error(`No existe el quiz asociado al id=${id}.`);
+		}
+		return new Promise((resolve, reject) => {
+
+			 makeQuestion(rl, `${quiz.question} ?`)
+			.then(a => {
+				if(quiz.answer.toLowerCase().trim() === a.toLowerCase().trim()){ 
+						log(socket, 'Su respuesta es correcta.');
+						biglog(socket, "Correcta", "green");
+						resolve()
+					} else { 
+						log(socket, 'Su respuesta es incorrecta.');
+						biglog(socket, "Incorrecta", "red")
+						resolve()
+					}
+			});
+		});
+	})
+	.catch(error => {
+		errorlog(socket, error.message);
+	})
+	.then(() => {
+		rl.prompt();
+	});
+
 };
 
 /**
