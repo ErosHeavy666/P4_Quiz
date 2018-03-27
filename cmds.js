@@ -248,7 +248,7 @@ const validateId = (socket, id) => {
  * @param rl Objeto readline usado para implementar el CLI
  */
 
- exports.deleteCmd = (rl, id) => {
+ exports.deleteCmd = (socket, rl, id) => {
 
   validateId(id)
   .then(id => models.quiz.destroy({
@@ -257,7 +257,7 @@ const validateId = (socket, id) => {
     }
   }))
   .catch(error => {
-    errorlog(error.message);
+    errorlog(socket,error.message);
   })
   .then(() => {
     rl.prompt();
@@ -272,7 +272,7 @@ const validateId = (socket, id) => {
  * @param rl Objeto readline usado para implementar el CLI
  */
 
- exports.editCmd = (rl, id) => {
+ exports.editCmd = (socket, rl, id) => {
   validateId(id)
   .then(id => model.quiz.findById(id))
   .then(quiz => {
@@ -300,16 +300,16 @@ const validateId = (socket, id) => {
     return quiz.save();
   })
   .then(quiz => {
-    log(` Se ha cambiado el quiz ${colorize(quiz.id, 'magenta')} por: ${quiz.question} ${colorize('=>','magenta')} ${quiz.answer}`);
+    log(socket, ` Se ha cambiado el quiz ${colorize(quiz.id, 'magenta')} por: ${quiz.question} ${colorize('=>','magenta')} ${quiz.answer}`);
   })
   .catch(Sequelize.ValidationError, error => {
-    errorlog('El quiz es erroneo:');
+    errorlog(socket, 'El quiz es erroneo:');
     error.errors.forEach(({
       message
-    }) => errorlog(message));
+    }) => errorlog(socket, message));
   })
   .catch(error => {
-    errorlog(error.message);
+    errorlog(socket, error.message);
   })
   .then(() => {
     rl.prompt();
@@ -319,7 +319,7 @@ const validateId = (socket, id) => {
 /**
  * Muestra los nombres de los autores de la práctica.
  */
- exports.creditsCmd = function(rl) {
+ exports.creditsCmd = function(socket, rl) {
   log(socket, 'Autores de la práctica');
   log(socket, 'Eros García Arroyo', 'green');
   log(socket, 'Luis García Olivares', 'green');
