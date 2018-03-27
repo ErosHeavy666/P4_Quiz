@@ -277,7 +277,7 @@ const validateId = (socket, id) => {
   .then(id => model.quiz.findById(id))
   .then(quiz => {
     if (!quiz) {
-      throw new Error(`No existe un quiz asociado al id=${id}.`);
+      throw new Error(socket, `No existe un quiz asociado al id=${id}.`);
     }
 
     process.stdout.isTTY && setTimeout(() => {

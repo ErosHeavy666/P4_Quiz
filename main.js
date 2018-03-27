@@ -14,9 +14,9 @@ net.createServer(socket =>{
 
 
 	const rl = readline.createInterface({
-		input: socket,
+		input: socket,                     
 		output: socket,
-		prompt: colorize("quiz> ", 'blue'),
+		prompt: socket, colorize("quiz> ", 'blue'),
 		completer: (line) => {
 			const completions = 'help h quit q add list show  test play p delete edit credits'.split(' ');
 			const hits = completions.filter((c) => c.startsWith(line));
