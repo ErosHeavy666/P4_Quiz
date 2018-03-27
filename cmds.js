@@ -151,7 +151,7 @@ const validateId = (socket, id) => {
  * @param rl Objeto readline usado para implementar el CLI
  */
 
- exports.testCmd = (socket, rl, id) => {
+ exports.testCmd = (rl, id) => {
   validateId(id)
   .then(id => models.quiz.findById(id))
   .then(quiz => {
@@ -161,17 +161,17 @@ const validateId = (socket, id) => {
     return makeQuestion(rl, `${quiz.question}`)
     .then(answer => {
       if (answer.toLowerCase() === quiz.answer.toLowerCase().trim()) {
-        log(socket, ` ${colorize('Correcto', 'magenta')}`);
-        biglog(socket,'Correcto', 'green');
+        log(` ${colorize('Correcto', 'magenta')}`);
+        biglog('Correcto', 'green');
       } else {
-        log(socket,` ${colorize('Incorrecto', 'magenta')}`);
-        biglog(socket,'Incorrecto', 'red');
+        log(` ${colorize('Incorrecto', 'magenta')}`);
+        biglog('Incorrecto', 'red');
       }
                     //rl.prompt();
                   });
   })
   .catch(error => {
-    errorlog(socket, error.message);
+    errorlog(error.message);
 
   })
   .then(() => {
