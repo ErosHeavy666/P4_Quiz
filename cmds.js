@@ -104,7 +104,7 @@ const {
 };
 
 
-const validateId = (socket, id) => {
+const validateId = (id) => {
 
   return new Sequelize.Promise((resolve, reject) => {
     if (typeof id === "undefined") {
